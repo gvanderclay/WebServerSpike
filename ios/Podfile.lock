@@ -59,6 +59,8 @@ PODS:
   - React-jsinspector (0.60.3)
   - react-native-static-server (0.4.2):
     - React
+  - react-native-webview (5.12.1):
+    - React
   - React-RCTActionSheet (0.60.3):
     - React-Core (= 0.60.3)
   - React-RCTAnimation (0.60.3):
@@ -100,6 +102,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-static-server (from `../node_modules/react-native-static-server`)
+  - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
   - React-RCTBlob (from `../node_modules/react-native/Libraries/Blob`)
@@ -138,6 +141,8 @@ EXTERNAL SOURCES:
     :path: ../node_modules/react-native/ReactCommon/jsinspector
   react-native-static-server:
     :path: ../node_modules/react-native-static-server
+  react-native-webview:
+    :path: ../node_modules/react-native-webview
   React-RCTActionSheet:
     :path: ../node_modules/react-native/Libraries/ActionSheetIOS
   React-RCTAnimation:
@@ -177,6 +182,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: e4b4717060a0cd8d0270323b5655a68c95432efd
   React-jsinspector: 044105eea064aec81adc5e4d777a8f6589e7d094
   react-native-static-server: c01bb73594a9b2328d7c8136719564d018a02336
+  react-native-webview: ad9581723f4d401c22cb3a371811d4dc9310df56
   React-RCTActionSheet: 08864c609d9f959abf3d51fdd93f8bc6e91f21eb
   React-RCTAnimation: a4547e9fac2627ded3df9d302f5558b475faf819
   React-RCTBlob: 62d5c263a2adb8f7a2cafd601beba18a2d99cbbb
@@ -190,6 +196,6 @@ SPEC CHECKSUMS:
   rn-fetch-blob: 6aa7c5b59f442fbfcdcc847edbc062119f6af66c
   yoga: 88c514f310aff89b94a14c5fbf44b95735af0cb7
 
-PODFILE CHECKSUM: 19e760e3bacf3c0042aabd893911063d796dc328
+PODFILE CHECKSUM: a4553986bb1fc5b2cb052da2fcf4967ac8b6bcda
 
 COCOAPODS: 1.4.0

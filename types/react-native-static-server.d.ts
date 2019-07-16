@@ -12,6 +12,7 @@ declare module "react-native-static-server" {
         constructor(port: number, path: string, opts: StaticServerOptions);
         start(): Promise<string>;
         stop(): Promise<void>;
+        kill(): Promise<void>;
     }
     export = StaticServer;
 }
