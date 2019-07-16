@@ -8,6 +8,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@types/graphql": "^14.2.2",
+    "graphql": "^14.4.2",
     "react": "16.8.6",
     "react-native": "0.60.3",
     "react-native-static-server": "git://github.com/futurepress/react-native-static-server.git#390303423ef1d2185d64eff246532bdc8b57fb33",

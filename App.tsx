@@ -19,6 +19,7 @@ import {
 import StaticServer from "react-native-static-server";
 import RNFetchBlob from "rn-fetch-blob";
 import { WebView } from "react-native-webview";
+import { graphql, buildSchema } from "graphql";
 
 type Props = {
   port: number;
@@ -27,8 +28,48 @@ type Props = {
 type State = {
   origin: string;
 };
+
+const books = [
+  {
+    title: "Harry Potter and the Chamber of Secrets",
+    author: "J.K. Rowling"
+  },
+  {
+    title: "Jurassic Park",
+    author: "Michael Crichton"
+  }
+];
+
+// Type definitions define the "shape" of your data and specify
+// which ways the data can be fetched from the GraphQL server.
+const schema = buildSchema(`
+  # Comments in GraphQL are defined with the hash (#) symbol.
+
+  # This "Book" type can be used in other type declarations.
+  type Book {
+    title: String
+    author: String
+  }
+
+  # The "Query" type is the root of all GraphQL queries.
+  # (A "Mutation" type will be covered later on.)
+  type Query {
+    books: [Book]
+  }
+`);
+
+// Resolvers define the technique for fetching the types in the
+// schema.  We'll retrieve books from the "books" array above.
+const resolvers = {
+  books: () => {
+    console.log("henlo");
+    return books;
+  }
+};
+
 export default class App extends Component<Props, State> {
   server: StaticServer | null = null;
+  webView: WebView | null = null;
 
   constructor(opts: Props) {
     super(opts);
@@ -66,15 +107,30 @@ export default class App extends Component<Props, State> {
         </View>
       );
     }
-
     return (
       <SafeAreaView>
         <Text>{this.state.origin}</Text>
         <View style={{ backgroundColor: "red", height: "100%", width: "100%" }}>
           <WebView
+            ref={r => (this.webView = r)}
             source={{ uri: `${this.state.origin}` }}
             style={styles.webview}
-            onMessage={event => Alert.alert(event.nativeEvent.data)}
+            onMessage={event => {
+              graphql(schema, event.nativeEvent.data, resolvers).then(
+                response => {
+                  const clientResponseCode = `
+                    console.log("EXECUTING");
+                    window.postMessage(${JSON.stringify(response)}, "*");
+                    true;
+                  `;
+                  console.log(clientResponseCode);
+                  if (this.webView) {
+                    this.webView.injectJavaScript(clientResponseCode);
+                  }
+                }
+              );
+              Alert.alert(event.nativeEvent.data);
+            }}
           />
         </View>
       </SafeAreaView>
