@@ -3,6 +3,7 @@ import {
   SafeAreaView,
   StyleSheet,
   StatusBar,
+  Text,
 } from 'react-native';
 
 import StaticServer from 'react-native-static-server';
@@ -21,7 +22,9 @@ const App = () => {
     <Fragment>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
+        <Text>
         {url}
+        </Text>
       </SafeAreaView>
     </Fragment>
   );
