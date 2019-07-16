@@ -41,41 +41,12 @@ export default class App extends Component<Props, State> {
   }
 
   async componentDidMount() {
-    // Get HTML file from require
-    let html = require("./usp-nf-dist/basic.html");
-    let { uri } = Image.resolveAssetSource(html);
-
-    let path = RNFetchBlob.fs.dirs.DocumentDir + "/" + this.root;
-    let dest = path + this.file;
-
-    // Add the directory
-    try {
-      await RNFetchBlob.fs.unlink(path);
-      await RNFetchBlob.fs.mkdir(path);
-    } catch (e) {
-      console.warn("this one?");
-    }
+    let newPath = RNFetchBlob.fs.dirs.MainBundleDir + "/www/";
+    let htmlDest = newPath + "index.html";
+    let jsDest = newPath + "basic.js";
 
     try {
-      if (uri.indexOf("file://") > -1) {
-        await RNFetchBlob.fs.unlink(dest);
-        await RNFetchBlob.fs.cp(uri, dest);
-      } else {
-        // Download for development
-        const res = await RNFetchBlob.config({
-          fileCache: true
-        }).fetch("GET", uri);
-        await RNFetchBlob.fs.unlink(dest);
-        await RNFetchBlob.fs.mv(res.path(), dest);
-        console.log(dest);
-        console.log(await RNFetchBlob.fs.readFile(dest, "utf8"));
-      }
-    } catch (e) {
-      console.warn(e);
-    }
-
-    try {
-      this.server = new StaticServer(this.port, this.root, {
+      this.server = new StaticServer(this.port, newPath, {
         localOnly: true
       });
 
@@ -104,9 +75,7 @@ export default class App extends Component<Props, State> {
 
     return (
       <SafeAreaView>
-        <Text>
-          {this.state.origin}/{this.file}
-        </Text>
+        <Text>{this.state.origin}</Text>
         <View style={{ backgroundColor: "red", height: "100%", width: "100%" }}>
           <WebView
             source={{ uri: `${this.state.origin}/${this.file}` }}
