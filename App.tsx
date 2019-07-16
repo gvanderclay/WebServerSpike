@@ -12,7 +12,8 @@ import {
   View,
   Image,
   NativeModules,
-  SafeAreaView
+  SafeAreaView,
+  Alert
 } from "react-native";
 
 import StaticServer from "react-native-static-server";
@@ -27,9 +28,6 @@ type State = {
   origin: string;
 };
 export default class App extends Component<Props, State> {
-  port: number = 3030;
-  root: string = "www/";
-  file: string = "index.html";
   server: StaticServer | null = null;
 
   constructor(opts: Props) {
@@ -42,13 +40,9 @@ export default class App extends Component<Props, State> {
 
   async componentDidMount() {
     let newPath = RNFetchBlob.fs.dirs.MainBundleDir + "/www/";
-    let htmlDest = newPath + "index.html";
-    let jsDest = newPath + "basic.js";
 
     try {
-      this.server = new StaticServer(this.port, newPath, {
-        localOnly: true
-      });
+      this.server = new StaticServer(3030, newPath, {});
 
       this.server.start().then(origin => {
         this.setState({ origin });
@@ -78,8 +72,9 @@ export default class App extends Component<Props, State> {
         <Text>{this.state.origin}</Text>
         <View style={{ backgroundColor: "red", height: "100%", width: "100%" }}>
           <WebView
-            source={{ uri: `${this.state.origin}/${this.file}` }}
+            source={{ uri: `${this.state.origin}` }}
             style={styles.webview}
+            onMessage={event => Alert.alert(event.nativeEvent.data)}
           />
         </View>
       </SafeAreaView>
