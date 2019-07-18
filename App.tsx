@@ -122,10 +122,12 @@ export default class App extends Component<Props, State> {
               graphql(schema, parsedQuery, resolvers).then(response => {
                 const clientResponseCode = `
                     console.log("EXECUTING");
-                    window.postMessage(${JSON.stringify(response)}, "*");
+                    window.postMessage(${JSON.stringify({
+                      response,
+                      id: parsedEvent.id
+                    })}, "*");
                     true;
                   `;
-                console.log(clientResponseCode);
                 if (this.webView) {
                   this.webView.injectJavaScript(clientResponseCode);
                 }

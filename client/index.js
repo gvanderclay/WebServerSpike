@@ -4,15 +4,32 @@ import { gql } from "apollo-boost";
 import { fetch } from "isomorphic-fetch";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import Observable from "zen-observable";
+
+const messageObservers = {};
+
+const handleMessage = message => {
+  console.log("RECEIVED MESSAGE, ", message);
+  const messageId = message.data.id;
+  const observer = messageObservers[messageId];
+  if (!observer) {
+    console.warn("No observer found for message with id: ", messageId);
+    return;
+  }
+  observer.next(message.data.response);
+  observer.complete();
+};
+
+window.addEventListener("message", handleMessage);
+
+let count = 0;
+
 const link = new ApolloLink(operation => {
   return new Observable(observer => {
-    window.ReactNativeWebView.postMessage(JSON.stringify(operation));
-    window.addEventListener("message", message => {
-      console.log(message.data);
-      observer.next(message.data);
-      observer.complete();
-      window.removeEventListener("message", this);
-    });
+    const id = count;
+    count++;
+    const request = Object.assign(operation, { id });
+    messageObservers[id] = observer;
+    window.ReactNativeWebView.postMessage(JSON.stringify(request));
   });
 });
 
