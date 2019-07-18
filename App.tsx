@@ -19,7 +19,7 @@ import {
 import StaticServer from "react-native-static-server";
 import RNFetchBlob from "rn-fetch-blob";
 import { WebView } from "react-native-webview";
-import { graphql, buildSchema } from "graphql";
+import { graphql, buildSchema, print } from "graphql";
 
 type Props = {
   port: number;
@@ -116,20 +116,20 @@ export default class App extends Component<Props, State> {
             source={{ uri: `${this.state.origin}` }}
             style={styles.webview}
             onMessage={event => {
-              graphql(schema, event.nativeEvent.data, resolvers).then(
-                response => {
-                  const clientResponseCode = `
+              const parsedEvent = JSON.parse(event.nativeEvent.data);
+              console.log(print(parsedEvent.query));
+              const parsedQuery = print(parsedEvent.query);
+              graphql(schema, parsedQuery, resolvers).then(response => {
+                const clientResponseCode = `
                     console.log("EXECUTING");
                     window.postMessage(${JSON.stringify(response)}, "*");
                     true;
                   `;
-                  console.log(clientResponseCode);
-                  if (this.webView) {
-                    this.webView.injectJavaScript(clientResponseCode);
-                  }
+                console.log(clientResponseCode);
+                if (this.webView) {
+                  this.webView.injectJavaScript(clientResponseCode);
                 }
-              );
-              Alert.alert(event.nativeEvent.data);
+              });
             }}
           />
         </View>

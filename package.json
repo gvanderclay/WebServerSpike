@@ -9,12 +9,19 @@
   },
   "dependencies": {
     "@types/graphql": "^14.2.2",
+    "apollo-boost": "^0.4.3",
+    "apollo-cache-inmemory": "^1.6.2",
+    "apollo-client": "^2.6.3",
+    "apollo-link": "^1.2.12",
     "graphql": "^14.4.2",
+    "isomorphic-fetch": "^2.2.1",
     "react": "16.8.6",
     "react-native": "0.60.3",
     "react-native-static-server": "git://github.com/futurepress/react-native-static-server.git#390303423ef1d2185d64eff246532bdc8b57fb33",
     "react-native-webview": "^5.12.1",
-    "rn-fetch-blob": "^0.10.16"
+    "rn-fetch-blob": "^0.10.16",
+    "webpack": "^4.36.1",
+    "zen-observable": "^0.8.14"
   },
   "devDependencies": {
     "@babel/core": "^7.5.4",
@@ -29,7 +36,8 @@
     "jest": "^24.8.0",
     "metro-react-native-babel-preset": "^0.55.0",
     "react-test-renderer": "16.8.6",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "webpack-cli": "^3.3.6"
   },
   "jest": {
     "preset": "react-native"
