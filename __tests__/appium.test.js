@@ -17,5 +17,9 @@ beforeAll(async () => {
 
 test('appium renders', async () => {
   expect(await driver.hasElementByAccessibilityId('webView')).toBe(true);
-  expect(await driver.hasElementByAccessibilityId('notthere')).toBe(false);
+  let contexts = await driver.contexts();
+  await driver.context(contexts[1]);
+  let currentContext = await driver.currentContext();
+  console.log(currentContext);
+  expect(currentContext).toContain('WEBVIEW');
 });
