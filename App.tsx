@@ -112,6 +112,7 @@ export default class App extends Component<Props, State> {
         <Text>{this.state.origin}</Text>
         <View style={{ backgroundColor: "red", height: "100%", width: "100%" }}>
           <WebView
+          accessibilityLabel="webView"
             ref={r => (this.webView = r)}
             source={{ uri: `${this.state.origin}` }}
             style={styles.webview}
